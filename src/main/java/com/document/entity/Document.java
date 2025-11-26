@@ -8,10 +8,10 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor 
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="document")
+@Table(name = "document")
 public class Document {
 	@Id
 
@@ -21,42 +21,53 @@ public class Document {
 	public String path;
 	public String version;
 	public String docClassName;
-	
+
 	public String getDocId() {
 		return docId;
 	}
+
 	public void setDocId(String docId) {
 		this.docId = docId;
 	}
+
 	public String getDocTitle() {
 		return docTitle;
 	}
+
 	public void setDocTitle(String docTitle) {
 		this.docTitle = docTitle;
 	}
+
 	public String getFileName() {
 		return fileName;
 	}
+
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
+
 	public String getPath() {
 		return path;
 	}
+
 	public void setPath(String path) {
 		this.path = path;
 	}
+
 	public String getVersion() {
 		return version;
 	}
+
 	public void setVersion(String version) {
 		this.version = version;
 	}
+
 	public String getDocClassName() {
 		return docClassName;
 	}
+
 	public void setDocClassName(String docClassName) {
 		this.docClassName = docClassName;
 	}
-	
+
 }

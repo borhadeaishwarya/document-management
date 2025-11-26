@@ -13,21 +13,24 @@ public class DocService {
 	private final DocDao dao;
 
 	public DocService(DocDao dao) {
-		
+
 		this.dao = dao;
 	}
-	
+
 	public Document saveDocument(Document document) {
 		return dao.save(document);
 	}
-	public  Document getDocumentById(String id) {
+
+	public Document getDocumentById(String id) {
 		return dao.findById(id).orElse(null);
-	
+
 	}
-	public List<Document>getAllDocument(){
+
+	public List<Document> getAllDocument() {
 		return dao.findAll();
-		
+
 	}
+
 	public boolean deleteDocument(String id) {
 		dao.deleteById(id);
 		return false;

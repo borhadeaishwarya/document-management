@@ -27,43 +27,47 @@ public class DocController {
 	public Document createDocument(@RequestBody Document document) {
 		return service.saveDocument(document);
 	}
-    @GetMapping
+
+	@GetMapping
 	public List<Document> getAllDoument() {
 		return service.getAllDocument();
 	}
-    @GetMapping("/{id}")
-      public Document getDocumentById(@PathVariable String id) {
-    	  return service.getDocumentById(id);
-      }
-    @PutMapping("/{id}")
-    public Document updateDocument(@PathVariable String id,@RequestBody Document update) {
-    	Document old=service.getDocumentById(id);
-    	
-    	if(old!=null) {
-    		old.setDocId(update.getDocId());
-        	old.setDocTitle(update.getDocTitle());
-        	old.setFileName(update.getFileName());
-        	old.setPath(update.getPath());
-        	old.setVersion(update.getVersion());
-        	old.setDocClassName(update.getDocClassName());
 
-    	return service.saveDocument(update);
-    	}
-    	return null;
-    }
-    @DeleteMapping("/{id}")
-    public String deleteDocument(@PathVariable String id) {
-    	if(service.deleteDocument(id)) {
-    		service.deleteDocument(id);
-        	return "document delete successfully " +id ;
+	@GetMapping("/{id}")
+	public Document getDocumentById(@PathVariable String id) {
+		return service.getDocumentById(id);
+	}
 
-    	}
-    	return "Document not found : "+ id;
-    	
-    }
-    
-	    @GetMapping("/welcome")
-	    public String getMsg() {
-	    	return "welcome postman";
-	    }
+	@PutMapping("/{id}")
+	public Document updateDocument(@PathVariable String id, @RequestBody Document update) {
+		Document old = service.getDocumentById(id);
+
+		if (old != null) {
+			old.setDocId(update.getDocId());
+			old.setDocTitle(update.getDocTitle());
+			old.setFileName(update.getFileName());
+			old.setPath(update.getPath());
+			old.setVersion(update.getVersion());
+			old.setDocClassName(update.getDocClassName());
+
+			return service.saveDocument(update);
+		}
+		return null;
+	}
+
+	@DeleteMapping("/{id}")
+	public String deleteDocument(@PathVariable String id) {
+		if (service.deleteDocument(id)) {
+			service.deleteDocument(id);
+			return "document delete successfully " + id;
+
+		}
+		return "Document not found : " + id;
+
+	}
+
+	@GetMapping("/welcome")
+	public String getMsg() {
+		return "welcome postman";
+	}
 }
