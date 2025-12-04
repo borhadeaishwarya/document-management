@@ -16,31 +16,30 @@ import com.document.security.JwtFilter;
 
 @Configuration
 public class SecurityConfig {
-	@Autowired
-	private JwtFilter jwtfilter;
-	//this is for basic auth not for jwt security
-//	@Bean
-//	public UserDetailsService userDetailsService() {
-//	    UserDetails user = User.withUsername("aish")
-//	            .password("{noop}1234")
-//	            .roles("USER")
-//	            .build();
-//
-//	    return new InMemoryUserDetailsManager(user);
-//	}
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http)throws Exception {
-		http.csrf().disable()
-		.authorizeHttpRequests()
-		.requestMatchers("/welcome","/auth").permitAll()
-		.anyRequest().authenticated()
-		.and()
-		.sessionManagement()
-        .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-	//add jwt filter
-		http.addFilterBefore(jwtfilter, UsernamePasswordAuthenticationFilter.class);
-		
-		
-		return http.build();
-	}
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        UserDetails user = User.withUsername("aish")
+                .password("{noop}1234")
+                .roles("USER")
+                .build();
+        return new InMemoryUserDetailsManager(user);
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http, JwtFilter jwtFilter) throws Exception {
+
+        http.csrf().disable()
+                .authorizeHttpRequests()
+                .requestMatchers("/api/document/login", "/api/document/welcome")
+                .permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
+    }
 }
