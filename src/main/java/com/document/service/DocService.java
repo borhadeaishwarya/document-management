@@ -7,7 +7,10 @@ import org.springframework.stereotype.Service;
 import com.document.dao.DocDao;
 import com.document.entity.Document;
 
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class DocService {
 
 	private final DocDao dao;

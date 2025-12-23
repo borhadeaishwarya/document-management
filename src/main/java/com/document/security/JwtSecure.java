@@ -14,8 +14,9 @@ import io.jsonwebtoken.security.Keys;
 public class JwtSecure {
 
 	private SecretKey secret = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+	
 	private long expiration = 86400000;
-//generate token
+    //generate token
 	public String generateToken(String username) {
 		
 		return Jwts.builder().setSubject(username).setIssuedAt(new Date())
