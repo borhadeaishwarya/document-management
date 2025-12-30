@@ -19,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.document.authRequest.AuthRequest;
 import com.document.entity.Document;
+import com.document.exception.CustumException;
 import com.document.security.JwtSecure;
 import com.document.service.DocService;
 
@@ -28,7 +29,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 //http://localhost:9090/api/document/welcome
 //http://localhost:9090/api/document/D101
- @Validated
+
+
 @RestController
 @RequestMapping("/api/document")
 public class DocController {
@@ -73,13 +75,13 @@ public class DocController {
 //    }
 
     // ✔ SECURED
-    @PostMapping
+    @PostMapping("/save")
     public ResponseEntity<Document> createDocument(@Valid @RequestBody Document document) {
 
-//    	if(document.getDocTitle()==null && document.getDocTitle().isEmpty()) {
-//    		throw new 
-//    	}
-        Document saved = service.saveDocument(document);
+//  	if(document.getDocTitle()==null || document.getDocTitle().isBlank()) {
+// 		throw new CustumException("doc title must not be null or empty"); 
+//   	}
+       Document saved = service.saveDocument(document);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)   // ✅ 201 Created
@@ -102,20 +104,25 @@ public class DocController {
     
 
     @PutMapping("/{id}")
-    public Document updateDocument(@PathVariable String id, @RequestBody Document update) {
+    public ResponseEntity<Document> updateDocument(
+            @PathVariable String id,@Valid @RequestBody Document update) {
+    	
         Document old = service.getDocumentById(id);
 
-        if (old != null) {
-            old.setDocId(update.getDocId());
-            old.setDocTitle(update.getDocTitle());
-            old.setFileName(update.getFileName());
-            old.setPath(update.getPath());
-            old.setVersion(update.getVersion());
-            old.setDocClassName(update.getDocClassName());
-
-            return service.saveDocument(old);
+        if (old == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Document not found with id: " + id
+            );
         }
-        return null;
+
+        old.setDocTitle(update.getDocTitle());
+        old.setFileName(update.getFileName());
+        old.setPath(update.getPath());
+        old.setVersion(update.getVersion());
+        old.setDocClassName(update.getDocClassName());
+
+        return ResponseEntity.ok(service.saveDocument(old));
     }
 
     @DeleteMapping("/{id}")

@@ -14,8 +14,8 @@ public class Document {
     @NotBlank(message = "Document id can't be empty")
     private String docId;
     
-    @NotBlank(message = "doc Title can't be empty")
-    @Size(min = 3,max = 50,message = "docTitle size must be in between 3 and 50 character")
+   @NotBlank(message = "doc Title can't be empty")
+   @Size(min = 3,max = 50,message = "docTitle size must be in between 3 and 50 character")
     private String docTitle;
     
     @NotBlank(message = "please insert file name")
