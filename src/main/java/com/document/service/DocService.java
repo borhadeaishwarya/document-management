@@ -36,6 +36,6 @@ public class DocService {
 
 	public boolean deleteDocument(String id) {
 		dao.deleteById(id);
-		return false;
+		return true;
 	}
 }

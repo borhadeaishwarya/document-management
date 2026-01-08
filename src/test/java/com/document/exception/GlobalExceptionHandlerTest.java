@@ -1,0 +1,51 @@
+package com.document.exception;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.test.web.servlet.MockMvc;
+
+import com.document.controller.DocController;
+import com.document.security.JwtSecure;
+import com.document.service.DocService;
+
+@WebMvcTest(DocController.class)
+@Import(GlobalExceptionHandler.class)
+@AutoConfigureMockMvc(addFilters = false)
+public class GlobalExceptionHandlerTest {
+
+	@Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private DocService docService;
+
+    @MockBean
+    private JwtSecure jwtSecure;
+
+    @MockBean
+    private AuthenticationManager authenticationManager;
+
+    @MockBean
+    private UserDetailsService userDetailsService;
+    
+    @Test
+    void whenValidationFails_thenReturnBadRequestWithErrors() throws Exception {
+
+        mockMvc.perform(post("/api/document/save")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{}"))   // invalid body
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.docTitle").value("doc Title can't be empty"));
+    }
+}
