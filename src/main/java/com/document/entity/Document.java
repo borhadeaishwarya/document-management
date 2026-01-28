@@ -7,11 +7,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-
+//add anotation
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "document")
+	
 public class Document {
 	@Id
 
