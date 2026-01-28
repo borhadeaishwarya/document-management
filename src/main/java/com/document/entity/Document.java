@@ -96,6 +96,6 @@ public class Document {
 	public void setDocClassName(String docClassName) {
 		this.docClassName = docClassName;
 	}
-	
+	System.out.println("this is entity class")
     
 }
