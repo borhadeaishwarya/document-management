@@ -24,7 +24,7 @@ public class Document {
 	public String docClassName;
 
 	public String getDocId() {
-		System.out.println("check jenkin is connected or not")
+	
 		return docId;
 	}
 
